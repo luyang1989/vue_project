@@ -61,9 +61,10 @@ export default {
             }
           }).then(res => {
              if (res.status == 200 && res.data.statusCode==200) {
-              localStorage.setItem('token',res.data.msg);  
-              this.$router.push('/');
-              this.loading = false
+                localStorage.setItem('token',res.data.msg);  
+                this.$message.success(res.data.result)
+                this.$router.push('/');
+                this.loading = false
                } else {
                  this.$message.error(res.data.msg)
                  this.loading = false   
