@@ -7,7 +7,7 @@ export default new Router({
     routes: [
         {
             path: '/',
-            redirect: '/dashboard'
+            redirect: '/personlist'
         },
         {
             path: '/',
@@ -15,8 +15,8 @@ export default new Router({
             meta: { title: '' },
             children: [
                 {
-                    path: '/dashboard',
-                    component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/Dashboard.vue'),
+                    path: '/personlist',
+                    component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/personlist.vue'),
                     meta: { title: '系统首页' }
                 },
                 {
@@ -28,17 +28,25 @@ export default new Router({
                     path: '/403',
                     component: () => import(/* webpackChunkName: "403" */ '../components/page/403.vue'),
                     meta: { title: '403' }
-                }
-            ]
+                },
+                {
+                    path: '/persondetail',
+                    component: () => import(/* webpackChunkName: "login" */ '../components/page/personadetail/index.vue'),
+                    meta: { title: '个人信息' }
+                },
+            ],
+            
         },
         {
             path: '/login',
             component: () => import(/* webpackChunkName: "login" */ '../components/page/Login.vue'),
             meta: { title: '登录' }
         },
+       
         {
             path: '*',
             redirect: '/404'
         }
     ]
 });
+
