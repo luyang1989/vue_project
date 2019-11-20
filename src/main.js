@@ -22,19 +22,18 @@ const i18n = new VueI18n({
     locale: 'zh',
     messages
 });
-
-// 使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {
     document.title = `${to.meta.title} |后台管理系统`;
-    // const role = localStorage.getItem('ms_username');
     let token = localStorage.getItem('token');
+      if (token === null || token === '') {// 判断是否登录
+        next({
+            // path: '/login',
+          })
+      } else {// 没登录则跳转到登录界面
+        next()
+      }
     
-    if (token === 'null' || token === '') {
-        next('/login');
-    }  else {
-        next();
-    }
-});
+  })
 new Vue({
     router,
     i18n,
