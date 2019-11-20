@@ -17,7 +17,12 @@ export default new Router({
                 {
                     path: '/dashboard',
                     component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/Dashboard.vue'),
-                    meta: { title: '系统首页' }
+                    meta: { title: '员工管理' }
+                },
+                {
+                    path: '/tenant',
+                    component: () => import(/* webpackChunkName: "tenant" */ '../components/page/Tenant.vue'),
+                    meta: { title: '租户管理' }
                 },
                 {
                     path: '/404',

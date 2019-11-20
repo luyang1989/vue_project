@@ -59,7 +59,12 @@ export default {
                 {
                     icon: 'el-icon-lx-home',
                     index: 'dashboard',
-                    title: '系统首页'
+                    title: '员工管理'
+                },
+                {
+                    icon: 'el-icon-tableware',
+                    index: 'tenant',
+                    title: '租户管理'
                 }
             ]
         };
