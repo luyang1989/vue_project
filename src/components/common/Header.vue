@@ -29,7 +29,7 @@
                 </div>
                 <!-- 用户头像 -->
                 <div class="user-avator">
-                    <img src="../../assets/img/img.jpg" />
+                    <img :src='avator'/>
                 </div>
                 <!-- 用户名下拉菜单 -->
                 <el-dropdown class="user-name" trigger="click" @command="handleCommand">
@@ -59,13 +59,17 @@ export default {
             collapse: false,
             fullscreen: false,
             name: 'linxin',
-            message: 2
+            message: 2,
         };
     },
     computed: {
         username() {
             let username = localStorage.getItem('ms_username');
             return username ? username : this.name;
+        }
+        ,
+        avator(){
+            return this.$store.state.avator
         }
     },
     methods: {
@@ -111,9 +115,14 @@ export default {
         }
     },
     mounted() {
+ 
         if (document.body.clientWidth < 1500) {
             this.collapseChage();
         }
+    },
+    created(){
+    // var a=     localStorage.getItem('avatarImg'); 
+    //  this.img = a;
     }
 };
 </script>

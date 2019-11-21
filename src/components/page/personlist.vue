@@ -45,13 +45,16 @@ export default {
     name: 'basetable',
     data() {
         return {
-               totalPage:0,
-                currentPage:1, //初始页
-                pagesize:10,   //每页的数据
-                tableData: []
+            totalPage:0,
+            currentPage:1, //初始页
+            pagesize:10,   //每页的数据
+            tableData: []
         };
     },
     created() {
+       this.getDate()
+    },
+    activated(){
        this.getDate()
     },
     computed: {
@@ -60,12 +63,13 @@ export default {
     methods: {
         getDate(){
             this.$http({
-            url:`/userPerson/getAllPerson?size=${this.pagesize}&current=${this.currentPage}`, 
+            url:`/userPerson/person/getAllPerson?size=${this.pagesize}&current=${this.currentPage}`, 
             method: "post",
             headers: {
               "Content-Type": "application/json"
             }
           }).then(res => {
+              console.log(res)
               if(res.status==200&res.data.statusCode==200){
                     this.tableData = res.data.result.records
                     this.totalPage = res.data.result.total
@@ -73,18 +77,14 @@ export default {
                    this.$message.error(res.data.msg)
               }
           })    
-        
         },
          // 初始页currentPage、初始每页数据数pagesize
         handleSizeChange: function (size) {
-            console.log(`每页${size}条数`)
             this.pagesize = size;
             this.getDate()  
-            
         },
         handleCurrentChange: function(currentPage){
             this.currentPage = currentPage;
-            console.log(`当前在${currentPage}页`)
              this.getDate()
             
         },

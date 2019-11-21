@@ -7,7 +7,7 @@ export default new Router({
     routes: [
         {
             path: '/',
-            redirect: '/dashboard'
+            redirect: '/personlist'
         },
         {
             path: '/',
@@ -15,14 +15,19 @@ export default new Router({
             meta: { title: '' },
             children: [
                 {
-                    path: '/dashboard',
-                    component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/Dashboard.vue'),
+                    path: '/personlist',
+                    component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/personlist.vue'),
                     meta: { title: '员工管理' }
                 },
                 {
                     path: '/tenant',
                     component: () => import(/* webpackChunkName: "tenant" */ '../components/page/Tenant.vue'),
                     meta: { title: '租户管理' }
+                },
+                {
+                    path: '/persondetail',
+                    component: () => import(/* webpackChunkName: "404" */ '../components/page/personadetail/index.vue'),
+                    meta: { title: '个人信息' }
                 },
                 {
                     path: '/404',
