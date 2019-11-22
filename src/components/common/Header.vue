@@ -38,7 +38,7 @@
                         <i class="el-icon-caret-bottom"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
-                        <router-link to="/persondetail">
+                        <router-link to="/userinfo">
                             <el-dropdown-item>个人信息</el-dropdown-item>
                         </router-link>
                         <!-- <a href="https://www.baidu.com" target="_blank">

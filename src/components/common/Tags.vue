@@ -59,7 +59,8 @@
             // 设置标签
             setTags(route){
                 const isExist = this.tagsList.some(item => {
-                    return item.path === route.fullPath;
+                    return item.path.indexOf(route.path) !== -1;
+                    // return item.path === route.fullPath;
                 })
                 if(!isExist){
                     if(this.tagsList.length >= 8){

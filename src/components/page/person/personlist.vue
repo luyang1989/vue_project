@@ -15,7 +15,11 @@
                 ref="multipleTable"
                 header-cell-class-name="table-header"
             >
-                <el-table-column  prop="userName" label="用户名"></el-table-column>
+                <el-table-column  prop="userName" label="用户名">
+                    <template slot-scope="scope">
+                    <p @click="userPersonDetail(scope.row.id)">{{scope.row.userName}}</p>
+                    </template>
+                </el-table-column>
                 <el-table-column  prop="begintime" label="开始时间"></el-table-column>
                 <el-table-column  prop="email" label="邮箱"></el-table-column>
                 <el-table-column  prop="enName" label="英文名"></el-table-column>
@@ -51,12 +55,13 @@ export default {
             tableData: []
         };
     },
-    created() {
+    mounted() {
        this.getDate()
     },
     activated(){
        this.getDate()
     },
+
     computed: {
    
     },
@@ -69,7 +74,6 @@ export default {
               "Content-Type": "application/json"
             }
           }).then(res => {
-              console.log(res)
               if(res.status==200&res.data.statusCode==200){
                     this.tableData = res.data.result.records
                     this.totalPage = res.data.result.total
@@ -85,9 +89,17 @@ export default {
         },
         handleCurrentChange: function(currentPage){
             this.currentPage = currentPage;
-             this.getDate()
-            
+            this.getDate()
         },
+        userPersonDetail(id){
+            //query传参，使用path跳转
+            this.$router.push({
+                path:'/persondetailInfo',
+                query: {
+                    id:id||0,
+                }
+            })
+        }
     }
 };
 </script>
@@ -95,6 +107,9 @@ export default {
 <style scoped>
 .handle-box {
   margin-bottom: 20px;
+}
+a{
+   color: rgb(32, 160, 255);
 }
 
 .handle-select {

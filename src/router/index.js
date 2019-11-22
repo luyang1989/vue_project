@@ -16,18 +16,29 @@ export default new Router({
             children: [
                 {
                     path: '/personlist',
-                    component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/personlist.vue'),
-                    meta: { title: '员工管理' }
+                    name:"personlist",
+                    component: () => import(/* webpackChunkName: "person" */ '../components/page/person/personlist.vue'),
+                    meta: { title: '员工管理' },
+                    children:[]
                 },
                 {
                     path: '/tenant',
+                    name:"tenant",
+                    
                     component: () => import(/* webpackChunkName: "tenant" */ '../components/page/Tenant.vue'),
                     meta: { title: '租户管理' }
                 },
                 {
-                    path: '/persondetail',
-                    component: () => import(/* webpackChunkName: "404" */ '../components/page/personadetail/index.vue'),
+                    path: '/userinfo',
+                    name:"userinfo",
+                    component: () => import(/* webpackChunkName: "404" */ '../components/page/user/userinfo.vue'),
                     meta: { title: '个人信息' }
+                },
+                {
+                    path: '/persondetailInfo',
+                    name:'persondetail',
+                    component: () => import(/* webpackChunkName: "persondetail" */ '../components/page/person/persondetail.vue'),
+                    meta: { title: '员工详情' }
                 },
                 {
                     path: '/404',

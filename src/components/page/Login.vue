@@ -60,7 +60,6 @@ export default {
               "Content-Type": "application/json"
             }
           }).then(res => {
-            console.log(res)
              if (res.status == 200 && res.data.statusCode==200) {
                 localStorage.setItem('token',res.data.msg);  
                 this.$message.success(res.data.result)
