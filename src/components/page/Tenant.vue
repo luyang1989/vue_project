@@ -29,15 +29,18 @@
                     </template>
                 </el-table-column>
             </el-table>
-
-    <div class="pagination-container">
-      <el-pagination background>
-      </el-pagination>
-    </div>
-         
-    </div>
-
-       
+            <div class="pagination-container">
+                <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 50, 100, 150]"
+                    :page-size="pagesize"        
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="totalPage">   
+                </el-pagination>
+            </div> 
+        </div>
     </div>
 </template>
 
@@ -49,9 +52,10 @@ export default {
         return {
             query: {
                 t_name: '',
-                pageIndex: 1,
-                pageSize: 10
+                pagesize: 10,
+                currentPage:1, //初始页
             },
+            totalPage:0,
             listLoading: true,
             tableData: [],
         };
@@ -65,12 +69,17 @@ export default {
             this.$http({
                 url: "/api/person/tenant/getTidList", 
                 method: "post",
+                params: {
+                    size:this.query.pagesize,
+                    current:this.query.currentPage
+                },
                 headers: {
                 "Content-Type": "application/json"
                 }
             }).then(res => {
                 if (res.status == 200 && res.data.statusCode==200) {
                     this.tableData = res.data.result.records
+                    this.totalPage = res.data.result.total
                     this.listLoading = false
                     this.$message.success("加载成功")
                 } else {
@@ -78,7 +87,16 @@ export default {
                     this.listLoading = false
                 }
             })
-        }
+        },
+        // 初始页currentPage、初始每页数据数pagesize
+        handleSizeChange: function (size) {
+            this.query.pagesize = size;
+            this.getTidList()  
+        },
+        handleCurrentChange: function(currentPage){
+            this.query.currentPage = currentPage;
+            this.getTidList()
+        },
     }
 };
 </script>
