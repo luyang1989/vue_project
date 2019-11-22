@@ -17,7 +17,7 @@
             >
                 <el-table-column  prop="userName" label="用户名">
                     <template slot-scope="scope">
-                    <p @click="userPersonDetail(scope.row.id)">{{scope.row.userName}}</p>
+                    <a @click="userPersonDetail(scope.row.id)">{{scope.row.userName}}</a>
                     </template>
                 </el-table-column>
                 <el-table-column  prop="begintime" label="开始时间"></el-table-column>
@@ -111,7 +111,9 @@ export default {
 a{
    color: rgb(32, 160, 255);
 }
-
+a:hover{
+ cursor: pointer;
+}
 .handle-select {
   width: 120px;
 }

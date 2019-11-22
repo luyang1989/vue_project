@@ -61,6 +61,7 @@ export default {
             }
           }).then(res => {
              if (res.status == 200 && res.data.statusCode==200) {
+                localStorage.setItem('ms_username',this.param.username);  
                 localStorage.setItem('token',res.data.msg);  
                 this.$message.success(res.data.result)
                 this.$router.push('/');
