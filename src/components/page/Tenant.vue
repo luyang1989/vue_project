@@ -15,18 +15,17 @@
             <el-table
                 :data="tableData"
                 border
+                v-loading="listLoading"
                 class="table"
                 ref="multipleTable"
                 header-cell-class-name="table-header"
             >
                 <el-table-column prop="tid" label="租户编码" align="center"></el-table-column>
-                <el-table-column prop="t_name" label="租户名称" align="center"></el-table-column>
+                <el-table-column prop="tname" label="租户名称" align="center"></el-table-column>
                 <el-table-column prop="c_time" label="创建时间" align="center"></el-table-column>
                 <el-table-column label="状态" align="center">
                     <template slot-scope="scope">
-                        <el-tag
-                            :type="scope.row.state==='成功'?'success':(scope.row.state==='失败'?'danger':'')"
-                        >{{scope.row.state}}</el-tag>
+                        <el-tag  :type="scope.row.status==='U'?'success':(scope.row.status==='D'?'danger':'')">{{scope.row.status}}</el-tag>
                     </template>
                 </el-table-column>
             </el-table>
@@ -53,27 +52,30 @@ export default {
                 pageIndex: 1,
                 pageSize: 10
             },
-            tableData: [
-                
-            ],
-         
+            listLoading: true,
+            tableData: [],
         };
     },
-    created() {
+    mounted() {
+        this.getTidList()
     },
     methods: {
         getTidList(){
+            this.listLoading = true
             this.$http({
-                url: `/api/person/tenant/getTidList`, 
+                url: "/api/person/tenant/getTidList", 
                 method: "post",
                 headers: {
                 "Content-Type": "application/json"
                 }
             }).then(res => {
                 if (res.status == 200 && res.data.statusCode==200) {
-                    this.$message.success(res.data.result)
+                    this.tableData = res.data.result.records
+                    this.listLoading = false
+                    this.$message.success("加载成功")
                 } else {
                     this.$message.error(res.data.msg)
+                    this.listLoading = false
                 }
             })
         }
