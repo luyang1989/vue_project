@@ -26,14 +26,16 @@ const i18n = new VueI18n({
 router.beforeEach((to, from, next) => {
     document.title = `${to.meta.title} |后台管理系统`;
     let token = localStorage.getItem('token');
-      if (token === null || token === '') {// 判断是否登录
-        next({
-            // path: '/login',
-          })
-      } else {// 没登录则跳转到登录界面
-        next()
-      }
-    
+    if(token){ //如果有就直接到首页咯
+        next();
+    } else {
+        if(to.path=='/login'){ //如果是登录页面路径，就直接next()
+            next();
+        } else { //不然就跳转到登录；
+            next('/login');
+        }
+
+    }
   })
 new Vue({
     router,
