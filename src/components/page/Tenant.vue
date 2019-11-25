@@ -25,7 +25,8 @@
                 <el-table-column prop="c_time" label="创建时间" align="center"></el-table-column>
                 <el-table-column label="状态" align="center">
                     <template slot-scope="scope">
-                        <el-tag  :type="scope.row.status==='U'?'success':(scope.row.status==='D'?'danger':'')">{{scope.row.status}}</el-tag>
+                        <!-- {{scope.row.status==="U"?scope.row.status="启用":(scope.row.status==="D"?scope.row.status="停用":"")}} -->
+                        <el-tag  :type="scope.row.status==='U'?'success':(scope.row.status==='D'?'danger':'')">{{scope.row.status==='U'?'启用':(scope.row.status==='D'?'停用':'')}}</el-tag>
                     </template>
                 </el-table-column>
             </el-table>
@@ -61,7 +62,10 @@ export default {
         };
     },
     mounted() {
-        this.getTidList()
+       this.getTidList()
+    },
+    activated(){
+       this.getTidList()
     },
     methods: {
         getTidList(){
@@ -76,12 +80,13 @@ export default {
                 headers: {
                 "Content-Type": "application/json"
                 }
-            }).then(res => {
+            }).then(response => {
+                let res = response
                 if (res.status == 200 && res.data.statusCode==200) {
                     this.tableData = res.data.result.records
                     this.totalPage = res.data.result.total
                     this.listLoading = false
-                    this.$message.success("加载成功")
+                    // this.$message.success("加载成功")
                 } else {
                     this.$message.error(res.data.msg)
                     this.listLoading = false
