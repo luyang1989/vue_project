@@ -144,7 +144,7 @@ export default {
       },
       getOrg(){
         this.$http({
-        url:"/userPerson/org/getOrg", 
+        url:"/api/person/org/getOrg", 
         method: "post",
         params:{
             tid:this.tid,
@@ -168,7 +168,7 @@ export default {
       },
       getDate(){
             this.$http({
-            url:"/userPerson/person/getAllPerson", 
+            url:"/api/person/person/getAllPerson", 
             method: "post",
             params:{
                 size:this.pagesize,

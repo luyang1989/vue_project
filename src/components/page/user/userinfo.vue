@@ -58,13 +58,9 @@ export default {
         headers:{'Content-Type':'multipart/form-data'}
        };
       this.$http({
-            url:"/userPerson/person/uploadFileToFast",
+            url:"/api/person/person/uploadFileToFast",
             method:'post',
-            data:{
-              picData,
-              userId:this.userId,
-              config
-            }
+            data:picData
         })
         .then(response=>{
             if(response){
@@ -79,7 +75,7 @@ export default {
     },
     getUploadPicture(){
        this.$http({
-          url:"/userPerson/person/getPhotoByUserID", 
+          url:"/api/person/person/getPhotoByUserID", 
           method: "post",
           params:{
           },

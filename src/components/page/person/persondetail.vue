@@ -26,7 +26,7 @@
       info(){
          var id  =  this.$route.query.id || 0
         this.$http({
-            url:"/userPerson/person/getPersonDetail", 
+            url:"/api/person/person/getPersonDetail", 
             method: "post",
             params:{
                 id:id

@@ -66,7 +66,7 @@ export default {
                 var userId = res.data.result.id
                 localStorage.setItem('userId',userId)
                 this.$http({
-                  url:"/userPerson/person/getPhotoByUserID", 
+                  url:"/api/person/person/getPhotoByUserID", 
                   method: "post",
                   params:{
                     userId:userId
