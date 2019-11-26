@@ -60,17 +60,19 @@ export default {
             fullscreen: false,
             name: 'linxin',
             message: 2,
+            avator:''
         };
     },
     computed: {
+        
         username() {
             let username = localStorage.getItem('ms_username');
             return username ? username : this.name;
         }
         ,
-        avator(){
-            return this.$store.state.avator
-        }
+        // avator(){
+        //     return this.$store.state.avator
+        // }
     },
     methods: {
         // 用户名下拉菜单选择事件
@@ -121,8 +123,9 @@ export default {
         }
     },
     created(){
-    // var a=     localStorage.getItem('avatarImg'); 
-    //  this.img = a;
+      let avatarImg= localStorage.getItem("avatorImg");  
+      this.avator = avatarImg
+      console.log(   this.avator)
     }
 };
 </script>

@@ -29,8 +29,12 @@
           <el-col :span="21" class="text-center">
             <div>
                 <div class="handle-box">
-                    <el-input  placeholder="用户名称" class="handle-input mr10"></el-input>
-                    <el-button type="primary" icon="el-icon-search">查询</el-button>
+                 <el-form  :model="listQuery" :inline="true"  size="small" >
+                    <el-form-item label="">
+                        <el-input  placeholder="用户编号  /  用户名称    " v-model="listQuery.userPersonName" class="handle-input mr10"></el-input>
+                    </el-form-item>
+                 </el-form>
+                 <el-button type="primary" icon="el-icon-search" @click="handleSearchList()">查询</el-button>
                 </div>
                 <el-table
                     :data="tableData"
@@ -84,57 +88,46 @@
 
 <script>
 import { fetchData } from '@/api/index';
+//   const defaultListQuery = {
+//     currentPage: 1,
+//     pagesize: 10,
+//     userPersonName:""
+//   };
 export default {
     name: 'basetable',
     data() {
         return {
+            // listQuery: Object.assign({}, defaultListQuery),
             totalPage:0,
             currentPage:1, //初始页
             pagesize:10,   //每页的数据
+            orgId:'',
+            listQuery:{
+                userPersonName:""
+            },
+            tid:"",
             tableData: [],
-            data: [{
-          id: 1,
-          label: '一级 1',
-          children: [{
-            id: 4,
-            label: '二级 1-1',
-            children: [{
-              id: 9,
-              label: '三级 1-1-1'
-            }, {
-              id: 10,
-              label: '三级 1-1-2'
-            }]
-          }]
-        }, {
-          id: 2,
-          label: '一级 2',
-          children: [{
-            id: 5,
-            label: '二级 2-1'
-          }, {
-            id: 6,
-            label: '二级 2-2'
-          }]
-        }, {
-          id: 3,
-          label: '一级 3',
-        }],
-        defaultProps: {
+            data: [],
+         defaultProps: {
           children: 'children',
           label: 'label'
         }
         };
     },
     mounted() {
+       this.getOrg()
        this.getDate()
     },
+    created(){
+        let tid = localStorage.getItem("tid")
+        this.tid = tid
+    },  
     activated(){
+        this.getOrg()
        this.getDate()
+        
     },
-
     computed: {
-   
     },
     methods: {
         toggleSelection(rows) {
@@ -149,25 +142,59 @@ export default {
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
+      getOrg(){
+        this.$http({
+        url:"/userPerson/org/getOrg", 
+        method: "post",
+        params:{
+            tid:this.tid,
+            parentId:""
+        },
+        headers: {
+            "Content-Type": "application/json"
+        }
+        }).then(res => {
+            if(res.status==200&res.data.statusCode==200){
+                this.orgId = res.data.result[0].id
+                this.getDate();
+                this.data = res.data.result
 
-        getDate(){
+            }else{
+                this.$message.error(res.data.msg)
+            }
+        }).catch((error)=>{
+            console.log(error)
+        })
+      },
+      getDate(){
             this.$http({
-            url:`/userPerson/person/getAllPerson?size=${this.pagesize}&current=${this.currentPage}`, 
+            url:"/userPerson/person/getAllPerson", 
             method: "post",
+            params:{
+                size:this.pagesize,
+                current:this.currentPage,
+                name:this.listQuery.userPersonName,
+                tid:this.tid,
+                orgId:this.orgId
+            },
             headers: {
               "Content-Type": "application/json"
             }
           }).then(res => {
               if(res.status==200&res.data.statusCode==200){
-                  console.log(res)
                     this.tableData = res.data.result.records
                     this.totalPage = res.data.result.total
               }else{
-                   this.$message.error(res.data.msg)
+                   this.$message.error(res.data.msg)    
               }
-          })    
-        },
-         // 初始页currentPage、初始每页数据数pagesize
+          })
+      },
+
+      handleSearchList(){
+            this.currentPage = 1;
+            this.getDate();
+      },
+        // 初始页currentPage、初始每页数据数pagesize
         handleSizeChange: function (size) {
             this.pagesize = size;
             this.getDate()  
@@ -185,7 +212,7 @@ export default {
                 }
             })
         },
-         nodeClick(n, ev,i) {
+       nodeClick(n, ev,i) {
             console.log('drag start', n, ev,i);
         },
         handleDragEnter(draggingNode, dropNode, ev) {
@@ -205,21 +232,27 @@ export default {
         },
         allowDrop(draggingNode, dropNode, type) {
         if (dropNode.data.label === '二级 3-1') {
-          return type !== 'inner';
+            return type !== 'inner';
         } else {
-          return true;
+            return true;
         }
-      },
-      allowDrag(draggingNode) {
+        },
+        allowDrag(draggingNode) {
         return draggingNode.data.label.indexOf('三级 3-2-2') === -1;
-      }
-    }
+        }
+  }
 };
 </script>
 
 <style scoped>
 .handle-box {
   margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+.el-form--inline .el-form-item{
+    margin: 0;
+    padding: 0;
 }
 a{
    color: rgb(32, 160, 255);

@@ -11,17 +11,21 @@
     </div>
  </div>
 </template>
-
 <script>
+import axios from "axios"
+
 export default {
   data() {
     return {
-      userInfo: {
-        avatar:""
-      },
+      avator:"",
     };
   },
   components: {},
+    created(){
+      let avatarImg= localStorage.getItem("avatorImg");  
+      this.avator = avatarImg
+    },
+
   methods: {
     // 打开图片上传
     uploadHeadImg: function() {
@@ -31,45 +35,64 @@ export default {
     handleFile: function(e) {
       let $target = e.target || e.srcElement;
       let file = $target.files[0];
+        // base64方法 2
       var reader = new FileReader();
+      reader.readAsDataURL(file);// 读出 base64
       reader.onload = data => {
-          console.log(data)
-        let res = data.target || data.srcElement;
-        this.$store.state.avator = res.result;
+         // 图片的 base64 格式, 可以直接当成 img 的 src 属性值
+        let res = data.target || data.srcElement; 
+         this.avator= res.result;
       };
-      reader.readAsDataURL(file);
-
       //请求
-      var picData=new FormData();
+       const instance=axios.create({
+          withCredentials: true
+         }) 
+      let picData=new FormData(); // 创建form对象 
+      var userId = localStorage.getItem('userId')
+      this.userId = userId
+      // 通过append向form对象添加数据
       picData.append('file',file,file.name);
-        this.$http({
+      console.log(file.name)
+      picData.append("userId", this.userId);
+       let config = {
+        headers:{'Content-Type':'multipart/form-data'}
+       };
+      this.$http({
             url:"/userPerson/person/uploadFileToFast",
             method:'post',
-            data:picData,
+            data:{
+              picData,
+              userId:this.userId,
+              config
+            }
         })
         .then(response=>{
-            console.log(response)
             if(response){
             this.$message.success("成功")
-                this.userInfo.avatar=response.data.result;
+                // localStorage.setItem('avatorImg',response.data.result) 
             }else{
                 this.$message.error("失败")
             }
         })
         .catch(Error=>{
-                        
         })
+    },
+    getUploadPicture(){
+       this.$http({
+          url:"/userPerson/person/getPhotoByUserID", 
+          method: "post",
+          params:{
+          },
+          headers: {
+            "Content-Type": "application/json"
+          }
+      }).then(res => {
+          
+      })
     }
-  },
-  created(){
-           
-  }, 
-  computed: {
-    avator(){
-        return this.$store.state.avator
-    }
-  }
 
+  },
+ 
 };
 </script>
  <style lang="css" scoped>
@@ -135,4 +158,27 @@ export default {
     
 
  
+ .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
 </style>
