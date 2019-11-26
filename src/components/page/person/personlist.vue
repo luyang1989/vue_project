@@ -3,7 +3,7 @@
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item>
-                    <i class="el-icon-lx-cascades"></i> 查询接口
+                    <i class="el-icon-lx-cascades"></i> 员工管理
                 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
@@ -16,7 +16,7 @@
     <el-row>
         <div style="margin-bottom:50px;">
           <el-col :span="3" class="text-center">
-            <div class="commonTreeTitle">组织架构</div>
+            <div class="commonTreeTitle">组织管理</div>
             <el-tree
                 :data="data"
                 node-key="id"
