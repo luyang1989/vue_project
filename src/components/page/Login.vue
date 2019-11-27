@@ -28,7 +28,6 @@
 
 <script>
  import crypto from 'crypto'
- import img from '../../assets/img/person_picture.png'
 export default {
   data: function() {
     return {
@@ -36,7 +35,6 @@ export default {
       param: {
         username: "",
         password: "",
-
       },
       rules: {
         username: [
@@ -62,38 +60,12 @@ export default {
             }
           }).then(res => {
              if (res.status == 200 && res.data.statusCode==200) {
-               console.log(res)
                 var userId = res.data.result.id
                 localStorage.setItem('userId',userId)
-                this.$http({
-                  url:"/api/person/person/getPhotoByUserID", 
-                  method: "post",
-                  params:{
-                    userId:userId
-                  },
-                  headers: {
-                    "Content-Type": "application/json"
-                  }
-                }).then(res => {
-                    if(res.status==200&res.data.statusCode==200){
-                        if(res.data.result===""||res.data.result===null||res.data.result==undefined){
-                           this.$store.state.avator =img
-                           let avatorImg = img
-                           localStorage.setItem('avatorImg',avatorImg); 
-                        }else{
-                          let avator = res.data.result.filepath;
-                          this.$store.state.avator = "http://10.0.41.102:9870/"+avator
-                          var avatorImg = "http://10.0.41.102:9870/"+avator
-                          localStorage.setItem('avatorImg',avatorImg); 
-                        }
-                    }else{
-                        this.$message.error(res.data.msg)
-                    }
-                }) 
                 localStorage.setItem('ms_username',this.param.username);  
                 localStorage.setItem('tid',res.data.result.tid);  
                 localStorage.setItem('token',res.data.msg);  
-                this.$message.success(res.data.result)
+                this.$message.success("登录成功")
                 this.$router.push('/');
                 this.loading = false
                } else {

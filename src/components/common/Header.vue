@@ -29,7 +29,7 @@
                 </div>
                 <!-- 用户头像 -->
                 <div class="user-avator">
-                    <img :src='avator'/>
+                    <img :src='avatar'/>
                 </div>
                 <!-- 用户名下拉菜单 -->
                 <el-dropdown class="user-name" trigger="click" @command="handleCommand">
@@ -53,6 +53,7 @@
 </template>
 <script>
 import bus from '../common/bus';
+import { mapGetters } from 'vuex'
 export default {
     data() {
         return {
@@ -60,21 +61,47 @@ export default {
             fullscreen: false,
             name: 'linxin',
             message: 2,
-            avator:''
+            userId:""
         };
     },
     computed: {
-        
         username() {
             let username = localStorage.getItem('ms_username');
             return username ? username : this.name;
-        }
-        ,
+        },
+        ...mapGetters([
+         'avatar'
+         ])
         // avator(){
         //     return this.$store.state.avator
         // }
     },
+    created(){
+      let userId =  localStorage.getItem('userId',userId)
+      this.userId = userId
+      this.getInfo()
+    },
     methods: {
+        getInfo(){
+                this.$http({
+                  url:"/api/person/person/getPhotoByUserID", 
+                  method: "post",
+                  params:{
+                    userId: this.userId
+                  },
+                  headers: {
+                    "Content-Type": "application/json"
+                  }
+                }).then(res => {
+                    if(res.status==200&res.data.statusCode==200){
+                        if(res.data.result!==""||res.data.result!==null||res.data.result!==undefined){
+                          this.$store.dispatch("UserAvatar","http://10.0.41.102:9870/"+res.data.result.filepath)
+                        }
+                    }else{
+                        this.$message.error(res.data.msg)
+                    }
+                }) 
+        },
         // 用户名下拉菜单选择事件
         handleCommand(command) {
             if (command == 'loginout') {
@@ -121,11 +148,6 @@ export default {
         if (document.body.clientWidth < 1500) {
             this.collapseChage();
         }
-    },
-    created(){
-      let avatarImg= localStorage.getItem("avatorImg");  
-      this.avator = avatarImg
-      console.log(   this.avator)
     }
 };
 </script>
