@@ -137,7 +137,8 @@ export default {
                 }
           }).then(res => {
               if(res.status==200&res.data.statusCode==200){
-                  
+                    this.tableData = res.data.result.records
+                    this.totalPage = res.data.result.total
               }else{
                    this.$message.error(res.data.msg)    
               }
