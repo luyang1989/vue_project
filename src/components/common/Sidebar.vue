@@ -70,6 +70,11 @@ export default {
                     icon: 'el-icon-tableware',
                     index: 'position',
                     title: '职级管理'
+                },
+                {
+                    icon: 'el-icon-tableware',
+                    index: 'entryMaterials',
+                    title: '入离职材料'
                 }
             ]
         };

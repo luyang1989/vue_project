@@ -54,7 +54,14 @@ export default new Router({
                     path: '/403',
                     component: () => import(/* webpackChunkName: "403" */ '../components/page/403.vue'),
                     meta: { title: '403' }
-                }
+                },
+                {
+                    path: '/entryMaterials',
+                    name:"entryMaterials",
+                    
+                    component: () => import(/* webpackChunkName: "tenant" */ '../components/page/entry/entryMaterials.vue'),
+                    meta: { title: '入离职材料' }
+                },
             ]
         },
         {
