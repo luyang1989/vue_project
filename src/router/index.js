@@ -24,9 +24,14 @@ export default new Router({
                 {
                     path: '/tenant',
                     name:"tenant",
-                    
                     component: () => import(/* webpackChunkName: "tenant" */ '../components/page/Tenant.vue'),
                     meta: { title: '租户管理' }
+                },
+                {
+                    path: '/position',
+                    name:"position",
+                    component: () => import(/* webpackChunkName: "tenant" */ '../components/page/Position.vue'),
+                    meta: { title: '职级管理' }
                 },
                 {
                     path: '/userinfo',
