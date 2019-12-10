@@ -1,9 +1,9 @@
 <template>
  <div>
    <ul class="conent">
-       <li v-for="(v,i) in personlist" :key="i">
-           <div>{{i}}</div>
-           <div>{{v}}</div>
+       <li>
+           <div>姓名</div>
+           <div>{{personlist.userName}}</div>
        </li>
    </ul>
  </div>
