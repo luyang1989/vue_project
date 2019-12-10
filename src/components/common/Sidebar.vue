@@ -65,6 +65,11 @@ export default {
                     icon: 'el-icon-tableware',
                     index: 'tenant',
                     title: '租户管理'
+                },
+                {
+                    icon: 'el-icon-tableware',
+                    index: 'position',
+                    title: '职级管理'
                 }
             ]
         };
